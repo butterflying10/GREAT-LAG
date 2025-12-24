@@ -10,9 +10,9 @@ import sys
 pyDirName, pyFileName = os.path.split(os.path.abspath(__file__))
 sys.path.append(f"{pyDirName}/../")
 
-from dependency.gnss_file_tool import isFileExist
-from dependency.gnss_sinex_io import readSinexFile, t_sinex
-from dependency.gnss_timestran_tool import doy2gpswd
+from PythonScripts.dependency.gnss_file_tool import isFileExist
+from PythonScripts.dependency.gnss_sinex_io import readSinexFile, t_sinex
+from PythonScripts.dependency.gnss_timestran_tool import doy2gpswd
 
 # ==================================================================
 # 读取并存储crd文件
@@ -213,9 +213,9 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     sinex_data = None
     # 年
-    year = 2023
+    year = 2024
     # 年积日
-    day = 305
+    day = 122
     # snx 文件夹路径
     sinex_path = rf"..\data_ppp\snx"
     # crd 文件夹路径（输出目录）

@@ -46,27 +46,27 @@ namespace great
 
         if (satdata.gsys() == GPS)
         {
-            if (antype == "BLOCK II")
-            {
-                _attitude_GPSIIA(satdata, antype, i, j, k);
-            }
-            else if (antype == "BLOCK IIA")
-            {
-                _attitude_GPSIIA(satdata, antype, i, j, k);
-            }
-            else if (antype.find("BLOCK IIR") != string::npos)
-            {
-                _attitude_GPSIIR(satdata, antype, i, j, k);
-            }
-            else if (antype == "BLOCK IIF")
-            {
-                _attitude_GPSIIF(satdata, antype, i, j, k);
-            }
-            else if (antype == "BLOCK III")
-            { // added by yqyuan for GPSIII (BLOCK III/IIIA/IIIF???)
-                _attitude_GPSIII(satdata, antype, i, j, k);
-            }
-            else
+            //if (antype == "BLOCK II")
+            //{
+            //    _attitude_GPSIIA(satdata, antype, i, j, k);
+            //}
+            //else if (antype == "BLOCK IIA")
+            //{
+            //    _attitude_GPSIIA(satdata, antype, i, j, k);
+            //}
+            //else if (antype.find("BLOCK IIR") != string::npos)
+            //{
+            //    _attitude_GPSIIR(satdata, antype, i, j, k);
+            //}
+            //else if (antype == "BLOCK IIF")
+            //{
+            //    _attitude_GPSIIF(satdata, antype, i, j, k);
+            //}
+            //else if (antype == "BLOCK III")
+            //{ // added by yqyuan for GPSIII (BLOCK III/IIIA/IIIF???)
+            //    _attitude_GPSIII(satdata, antype, i, j, k);
+            //}
+            //else
                 _ysm(satdata, i, j, k);
         }
         else if (satdata.gsys() == GLO)
@@ -75,24 +75,29 @@ namespace great
         }
         else if (satdata.gsys() == GAL)
         {
-            if (antype == "GALILEO-1")
-            {
-                _attitude_GAL1(satdata, antype, i, j, k);
-            }
-            else if (antype == "GALILEO-2")
-            {
-                _attitude_GAL2(satdata, antype, i, j, k);
-            }
-            else
+            //if (antype == "GALILEO-1")
+            //{
+            //    _attitude_GAL1(satdata, antype, i, j, k);
+            //}
+            //else if (antype == "GALILEO-2")
+            //{
+            //    _attitude_GAL2(satdata, antype, i, j, k);
+            //}
+            //else
                 _ysm(satdata, i, j, k);
         }
         else if (satdata.gsys() == BDS)
         {
-            _attitude_BDS(satdata, antype, i, j, k);
+            //_attitude_BDS(satdata, antype, i, j, k);
+            _ysm(satdata, i, j, k);
         }
         else if (satdata.gsys() == QZS)
         {
             _attitude_QZS(satdata, antype, i, j, k);
+        }
+        else if (satdata.gsys() == LEO) // add by butterflying 名义姿态
+        {
+            _ysm(satdata, i, j, k);
         }
 
         if (i.norm() == 0 || j.norm() == 0 || k.norm() == 0)

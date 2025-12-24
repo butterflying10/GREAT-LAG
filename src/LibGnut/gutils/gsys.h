@@ -90,6 +90,7 @@ namespace gnut
 
 #define L02_MLT 120.0 //LYZ CHANGE120.0 117.5
 #define L01_MLT 154.0 //LYZ CHANGE154.0 148.8
+#define L05_MLT 115.0
 ///< GNSS derived frequencies [Hz]
 #define G01_F G01_MLT *GPS_FRQ                    ///<  L1    - GPS NAVSTAR
 #define G02_F G02_MLT *GPS_FRQ                    ///<  L2    - GPS NAVSTAR
@@ -129,6 +130,7 @@ namespace gnut
 //#define  X02_F      X02_MLT * XXX_FRQ                // FPPP-B2b  -XW
 #define L01_F L01_MLT *LEO_FRQ //  L1    - LEO
 #define L02_F L02_MLT *LEO_FRQ //  L2    - LEO
+#define L05_F L05_MLT *LEO_FRQ //  L5    - LEO
 
 ///< OBSOLETE INFORMATIONS -- NOT YET !?
 #define GPSLAMB1 CLIGHT / (G01_F)                                                                                                                  ///< GPS L1 wave length [m]

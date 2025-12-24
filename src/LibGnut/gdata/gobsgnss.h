@@ -76,7 +76,7 @@ namespace gnut
         {BDS, {{BAND_2, "IQX"}, {BAND_7, "IQX"}, {BAND_6, "IQX"}, {BAND_5, "DPX"}, {BAND_9, "DPZ"}, {BAND_8, "DPX"}, {BAND_1, "DPX"}}},
         {GLO, {{BAND_1, "CP"}, {BAND_2, "CP"}}},
         {QZS, {{BAND_1, "CSLX"}, {BAND_2, "LX"}, {BAND_5, "IQX"}}},
-        {LEO, {{BAND_1,"CF"},{BAND_2,"CF"}}}
+        {LEO, {{BAND_1,"CF"},{BAND_2,"CF"},{BAND_5,"CF"}}}
     };
 
     const static map<GSYS, map<GOBSBAND, string>> range_order_attr_cmb = {
@@ -85,7 +85,7 @@ namespace gnut
         {BDS, {{BAND_2, "IQX"}, {BAND_7, "IQX"}, {BAND_6, "IQX"}, {BAND_5, "DPX"}, {BAND_9, "DPZ"}, {BAND_8, "DPX"}, {BAND_1, "DPX"}}},
         {GLO, {{BAND_1, "CP"}, {BAND_2, "CP"}}},
         {QZS, {{BAND_1, "CSLX"}, {BAND_2, "LX"}, {BAND_5, "IQX"}}},
-        {LEO, {{BAND_1,"CF"},{BAND_2,"CF"}}}
+        {LEO, {{BAND_1,"CF"},{BAND_2,"CF"},{BAND_5,"CF"}}}
     };
 
     const static map<GSYS, map<GOBSBAND, string>> phase_order_attr_raw = {
@@ -94,7 +94,7 @@ namespace gnut
         {BDS, {{BAND_2, "XIQ"}, {BAND_7, "IQX"}, {BAND_6, "IQX"}, {BAND_5, "DPX"}, {BAND_9, "DPZ"}, {BAND_8, "DPX"}, {BAND_1, "DPX"}}},
         {GLO, {{BAND_1, "PC"}, {BAND_2, "CP"}}},                   
         {QZS, {{BAND_1, "CSLX"}, {BAND_2, "LX"}, {BAND_5, "IQX"}}}, 
-        {LEO, {{BAND_1,"CF"},{BAND_2,"CF"}}}
+        {LEO, {{BAND_1,"CF"},{BAND_2,"CF"},{BAND_5,"CF"}}}
     };
 
     const static map<GSYS, map<GOBSBAND, string>> phase_order_attr_cmb =
@@ -104,7 +104,7 @@ namespace gnut
             {BDS, {{BAND_2, "QXI"}, {BAND_7, "IQX"}, {BAND_6, "IQX"}, {BAND_5, "DPX"}, {BAND_9, "DPZ"}, {BAND_8, "DPX"}, {BAND_1, "DPX"}}},
             {GLO, {{BAND_1, "PC"}, {BAND_2, "CP"}}},                   
             {QZS, {{BAND_1, "CSLX"}, {BAND_2, "LX"}, {BAND_5, "IQX"}}}, 
-            {LEO, {{BAND_1,"CF"},{BAND_2,"CF"}}}
+            {LEO, {{BAND_1,"CF"},{BAND_2,"CF"},{BAND_5,"CF"}}}
     };
 
     class t_obscmb;

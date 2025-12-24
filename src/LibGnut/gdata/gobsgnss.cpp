@@ -807,6 +807,7 @@ namespace gnut
 
         case BAND_1:return L01_F;
         case BAND_2:return L02_F;
+        case BAND_5:return L05_F;
         }
 
         case SBS:

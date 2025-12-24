@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 	auto log_pattern = dynamic_cast<t_gsetout*>(&gset)->log_pattern();
 	spdlog::set_level(log_level);
 	spdlog::set_pattern(log_pattern);
-	spdlog::flush_on(spdlog::level::err);
+	spdlog::flush_on(spdlog::level::info);// change err to info
 	t_grtlog great_log = t_grtlog(log_type, log_level, log_name);
 	auto my_logger = great_log.spdlog();
 
@@ -176,8 +176,7 @@ int main(int argc, char** argv)
 	// set antennas for satllites (must be before PCV assigning)
 	t_gtime beg = dynamic_cast<t_gsetgen*>(&gset)->beg();
 	t_gtime end = dynamic_cast<t_gsetgen*>(&gset)->end();
-
-	gobj->read_satinfo(beg);
+    gobj->read_satinfo(beg);
 
 	// assigning PCV pointers to objects
 	gobj->sync_pcvs();
@@ -194,12 +193,12 @@ int main(int argc, char** argv)
 	if (!data_simu->Add_Data(gobs)) { std::cout << "Warning: No obs file." << std::endl; };
 	if (!data_simu->Add_Data(gbia)) { std::cout << "Warning: No bias file." << std::endl; };
 	if (!data_simu->Add_Data(gionex)) { std::cout << "Warning: No ionex file." << std::endl; };
-	if (!data_simu->Add_Data(gupd)) { std::cout << "Warning: No ionex file." << std::endl; };
+	if (!data_simu->Add_Data(gupd)) { std::cout << "Warning: No upd file." << std::endl; };
 
 	vector<t_gsimugns*> vgsimu;
 	for (auto site : sites)
 	{
-		int random = 0;
+		int random = 0; //控制随机数,不同测站仿真时模糊度值不一样,同一测站不同卫星的模糊度前后两次仿真是一样的
 
 		for (auto c : site) random += c - 'A';
 

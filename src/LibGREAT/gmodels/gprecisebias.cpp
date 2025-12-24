@@ -550,10 +550,12 @@ namespace great
                 }
                 if (satdata.gsys() == gnut::LEO)
                 {
-                    update_rotmat_scf(satdata.sat(), epoch, _crs_sat_crd.crd_cvect(), _crs_sat_vel.crd_cvect());
-                    i(0) = _rot_scf2trs_leo(1, 2); i(1) = _rot_scf2trs_leo(2, 2); i(2) = _rot_scf2trs_leo(3, 2);
-                    j(0) = _rot_scf2trs_leo(1, 1); j(1) = _rot_scf2trs_leo(2, 1); j(2) = _rot_scf2trs_leo(3, 1);
-                    k(0) = _rot_scf2trs_leo(1, 3); k(1) = _rot_scf2trs_leo(2, 3); k(2) = _rot_scf2trs_leo(3, 3);
+                    _gattitude_model.attitude(satdata, "", i, j, k);//改成名义姿态计算LEO卫星的姿态矩阵
+                    //下面是常偏姿态
+                    //update_rotmat_scf(satdata.sat(), epoch, _crs_sat_crd.crd_cvect(), _crs_sat_vel.crd_cvect());
+                    //i(0) = _rot_scf2trs_leo(1, 2); i(1) = _rot_scf2trs_leo(2, 2); i(2) = _rot_scf2trs_leo(3, 2);
+                    //j(0) = _rot_scf2trs_leo(1, 1); j(1) = _rot_scf2trs_leo(2, 1); j(2) = _rot_scf2trs_leo(3, 1);
+                    //k(0) = _rot_scf2trs_leo(1, 3); k(1) = _rot_scf2trs_leo(2, 3); k(2) = _rot_scf2trs_leo(3, 3);
                 }
                 else{
                     if (_attitudes == ATTITUDES::YAW_NOMI)
@@ -657,10 +659,11 @@ namespace great
                 Eigen::Vector3d i, j, k;
                 if (satdata.gsys() == gnut::LEO)
                 {
-                    update_rotmat_scf(satdata.sat(), epoch, _crs_sat_crd.crd_cvect(), _crs_sat_vel.crd_cvect());
-                    i(0) = _rot_scf2trs_leo(1, 2); i(1) = _rot_scf2trs_leo(2, 2); i(2) = _rot_scf2trs_leo(3, 2);
-                    j(0) = _rot_scf2trs_leo(1, 1); j(1) = _rot_scf2trs_leo(2, 1); j(2) = _rot_scf2trs_leo(3, 1);
-                    k(0) = _rot_scf2trs_leo(1, 3); k(1) = _rot_scf2trs_leo(2, 3); k(2) = _rot_scf2trs_leo(3, 3);
+                    _gattitude_model.attitude(satdata, "", i, j, k);//改成名义姿态计算LEO卫星的姿态矩阵
+                    //update_rotmat_scf(satdata.sat(), epoch, _crs_sat_crd.crd_cvect(), _crs_sat_vel.crd_cvect());
+                    //i(0) = _rot_scf2trs_leo(1, 2); i(1) = _rot_scf2trs_leo(2, 2); i(2) = _rot_scf2trs_leo(3, 2);
+                    //j(0) = _rot_scf2trs_leo(1, 1); j(1) = _rot_scf2trs_leo(2, 1); j(2) = _rot_scf2trs_leo(3, 1);
+                    //k(0) = _rot_scf2trs_leo(1, 3); k(1) = _rot_scf2trs_leo(2, 3); k(2) = _rot_scf2trs_leo(3, 3);
                 }
                 else {
                     if (_attitudes == ATTITUDES::YAW_NOMI)
@@ -1066,6 +1069,7 @@ namespace great
         Matrix rot_trs2crs = _trs2crs_2000->getRotMat();
 
         t_gtriple tide(0.0, 0.0, 0.0);
+        t_gtriple tide_test(0.0, 0.0, 0.0);// 仿真时不仿真潮汐影响
         try
         {
             // solid tide
@@ -1108,6 +1112,8 @@ namespace great
                    tide_pole +
                    load_atmosph +
                    load_ocean_pole;
+            
+
 
         }
         catch (...)
@@ -1118,7 +1124,7 @@ namespace great
         }
 
         //unit to m
-        rec = rec + tide * 1.e3;
+        rec = rec + tide * 1.e3; 
         return true;
     }
 

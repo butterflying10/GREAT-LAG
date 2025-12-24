@@ -457,6 +457,9 @@ namespace great
 					_sat_amb_map[sat].value_L1 = int(std::normal_distribution<double>(0.0, sigmaAMB)(_engine));
 					_sat_amb_map[sat].value_L2 = int(std::normal_distribution<double>(0.0, sigmaAMB)(_engine));
 					_sat_amb_map[sat].value_L3 = int(std::normal_distribution<double>(0.0, sigmaAMB)(_engine));
+					SPDLOG_LOGGER_INFO(_log, "simugns_amb INFO : simu amb L1 {}  value {}", sat ,_sat_amb_map[sat].value_L1);
+					SPDLOG_LOGGER_INFO(_log, "simugns_amb INFO : simu amb L2 {}  value {}", sat, _sat_amb_map[sat].value_L2);
+					SPDLOG_LOGGER_INFO(_log, "simugns_amb INFO : simu amb L3 {}  value {}", sat, _sat_amb_map[sat].value_L3);
 				}
 				if (_sat_amb_map[sat].status == 1) 
 				{

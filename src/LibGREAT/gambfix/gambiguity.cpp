@@ -201,7 +201,7 @@ namespace great
         // calulate widelane upd for iono_free
         if (_obstype == OBSCOMBIN::RAW_ALL || _obstype == OBSCOMBIN::RAW_MIX)
         {
-            if (mode != "NL" && !_calDDAmbWLALL(&amb_cmn, mode))
+            if  (mode != "NL" && !_calDDAmbWLALL(&amb_cmn, mode))
                 return -1;
         }
         else if (_obstype == OBSCOMBIN::IONO_FREE)
@@ -890,16 +890,19 @@ namespace great
         }
         else if (mode == "WL")
         {
-            if (epoch_upd[sat]->sigma > 0.2 || epoch_upd[sat]->npoint <= 2)
-                return false;
+            //if (epoch_upd[sat]->sigma > 0.2 || epoch_upd[sat]->npoint <= 2)
+            //    return false;
             value = epoch_upd[sat]->value;
+            value = 0.0; // Test by butterflying
         }
         else if (mode == "NL")
         {
-            if (epoch_upd[sat]->sigma > 0.1 || epoch_upd[sat]->npoint <= 3)
-                return false;
+            //if (epoch_upd[sat]->sigma > 0.1 || epoch_upd[sat]->npoint <= 3)
+            //    return false;
             value = epoch_upd[sat]->value;
             sigma += pow(epoch_upd[sat]->sigma, 2);
+            value = 0.0; // Test by butterflying
+            sigma = 0.0;
         }
         else
         {

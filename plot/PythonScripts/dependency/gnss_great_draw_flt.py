@@ -10,9 +10,10 @@ from matplotlib import pyplot as plt
 
 pyDirName, pyFileName = os.path.split(os.path.abspath(__file__))
 sys.path.append(f"{pyDirName}/../")
-from dependency.gnss_greatPos_plot import getPosTimeIndex
-from dependency.gnss_cord_tool import ecef2enu, ecef2pos
-from dependency.gnss_math_tool import get_rms, get_standard_deviation
+from PythonScripts.dependency.gnss_greatPos_plot import getPosTimeIndex
+from PythonScripts.dependency.gnss_cord_tool import ecef2enu, ecef2pos
+from PythonScripts.dependency.gnss_math_tool import get_rms, get_standard_deviation
+
 
 def gnss_great_draw_compare_flt(site_name, type1, type2, fltData1, fltData2, crdData, savePath):
     """
@@ -56,17 +57,17 @@ def gnss_great_draw_compare_flt(site_name, type1, type2, fltData1, fltData2, crd
 
     ax1.set_ylabel('East/m', font1)
     ax1.grid(axis="y")
-    ax1.set_ylim(-0.2, 0.2)
+    # ax1.set_ylim(-0.1, 0.1)
     ax1.tick_params(axis='both', colors='black', direction='out', labelsize=11, width=1, length=1, pad=5)
 
     ax2.set_ylabel('North/m', font1)
     ax2.grid(axis="y")
-    ax2.set_ylim(-0.2, 0.2)
+    # ax2.set_ylim(-0.1, 0.1)
     ax2.tick_params(axis='both', colors='black', direction='out', labelsize=11, width=1, length=1, pad=5)
     
     ax3.set_ylabel('Up/m', font1)
     ax3.grid(axis="y")
-    ax3.set_ylim(-0.2, 0.2)
+    # ax3.set_ylim(-0.1, 0.1)
     ax3.set_xlabel('Period of processing',font1)
     ax3.tick_params(axis='both', colors='black', direction='out', labelsize=11, width=1, length=1, pad=5)
 
@@ -179,14 +180,14 @@ def gnss_great_draw_compare_flt(site_name, type1, type2, fltData1, fltData2, crd
 
     
 
-    ax1.plot(plotX1, plotY1[0], c='b', marker='.', linestyle='None', label=f"{type1}")
-    ax1.plot(plotX2, plotY2[0], c='r', marker='.', linestyle='None', label=f"{type2}")
+    ax1.plot(plotX1, plotY1[0], c='b', marker='.', linestyle='None', label=f"{type1}",linewidth=1,markersize=1)
+    ax1.plot(plotX2, plotY2[0], c='r', marker='.', linestyle='None', label=f"{type2}",linewidth=1,markersize=1)
     #ax1.scatter(plotX2, plotY2[0], c=col, marker='.', linestyle='None', label=f"{type2}")
-    ax2.plot(plotX1, plotY1[1], c='b', marker='.', linestyle='None', label=f"{type1}")
-    ax2.plot(plotX2, plotY2[1], c='r', marker='.', linestyle='None', label=f"{type2}")
+    ax2.plot(plotX1, plotY1[1], c='b', marker='.', linestyle='None', label=f"{type1}",linewidth=1,markersize=1)
+    ax2.plot(plotX2, plotY2[1], c='r', marker='.', linestyle='None', label=f"{type2}",linewidth=1,markersize=1)
     #ax2.scatter(plotX2, plotY2[1], c=col, marker='.', linestyle='None', label=f"{type2}")
-    ax3.plot(plotX1, plotY1[2], c='b', marker='.', linestyle='None', label=f"{type1}")
-    ax3.plot(plotX2, plotY2[2], c='r', marker='.', linestyle='None', label=f"{type2}")
+    ax3.plot(plotX1, plotY1[2], c='b', marker='.', linestyle='None', label=f"{type1}",linewidth=1,markersize=1)
+    ax3.plot(plotX2, plotY2[2], c='r', marker='.', linestyle='None', label=f"{type2}",linewidth=1,markersize=1)
     #ax3.scatter(plotX2, plotY2[2], c=col, marker='.', linestyle='None', label=f"{type2}")
     ax1.legend()
     ax2.legend()

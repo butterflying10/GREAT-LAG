@@ -255,7 +255,8 @@ namespace gnut
                 }
 
                 int sod = hr * 3600 + mi * 60 + (int)sc;
-                _lastepo.from_ymd(yr, mn, dd, sod);
+                double ds = sc - (int)sc;
+                _lastepo.from_ymd(yr, mn, dd, sod, ds);
 
                 if (_spdlog)
                     SPDLOG_LOGGER_DEBUG(_spdlog, "reading EPOCH [{}] - {} ", _nrecord, _lastepo.str(" %Y-%m-%d %H:%M:%S"));

@@ -5,39 +5,39 @@ import logging
 import os
 from tqdm import tqdm
 
-from dependency.gnss_flt_io import readGreatFltFile_v2
-from snx_to_crd import readCrdFile
-from dependency.gnss_great_draw_flt import gnss_great_draw_compare_flt
+from PythonScripts.dependency.gnss_flt_io import readGreatFltFile_v2
+from PythonScripts.snx_to_crd import readCrdFile
+from PythonScripts.dependency.gnss_great_draw_flt import gnss_great_draw_compare_flt
 
 siteList = [
-    "ABMF"
+    "JFNG"
 ]
 
 # 数据的年份
-year = 2021
+year = 2024
 # 数据的年积日
-day = 100
+day = 122
 # 设置数据类型：浮点解(ppp-float)或者固定解(ppp-fixed)
-type1 = "LEO-float"
-type2 = "LEO-fixed"
+type1 = "JFNG GPS"
+type2 = "JFNG BDS"
 
 # 对应 type1 的测站数据
-fltPath1 = rf"..\data_ppp\kin_float"
+fltPath1 = rf"..\data_ppp\float_2024122"
 # 对应 type2 的测站数据
-fltPath2 = rf"..\data_ppp\kin_fix"
+fltPath2 = rf"..\data_ppp\float_2024122"
 # 保存的结果目录
 savePath = rf"..\output"
 # gnss_crd_io.py 脚本输出的 crd 文件路径
-crdPath = rf"..\data_ppp\crd\snx_igs_2021_100.crd"
+crdPath = rf"..\data_ppp\crd\snx_igs_2024_122.crd"
 
 crdData = readCrdFile(crdPath)
 for doy in tqdm(range(day, day + 1)):
-    yeardoy_savePath = os.path.join(savePath, f"{year:04d}_{doy:03d}_kin")
+    yeardoy_savePath = os.path.join(savePath, f"{year:04d}_{doy:03d}_sta_test")
     for site in siteList:
         logging.info(f"{site}")
         for i in range(1):
-            fltFilePath1 = os.path.join(fltPath1, f"{site}-LEO.flt")
-            fltFilePath2 = os.path.join(fltPath2, f"{site}-LEO.flt")
+            fltFilePath1 = os.path.join(fltPath1, f"{site}-SIMU_LEO_G.flt")
+            fltFilePath2 = os.path.join(fltPath2, f"{site}-SIMU_LEO_C.flt")
             if not os.path.exists(fltFilePath2):
                 continue
             fltData2 = readGreatFltFile_v2(fltFilePath2)

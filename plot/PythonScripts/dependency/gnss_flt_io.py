@@ -10,10 +10,10 @@ import sys
 pyDirName, pyFileName = os.path.split(os.path.abspath(__file__))
 sys.path.append(f"{pyDirName}/../")
 
-from dependency.gnss_file_tool import isFileExist
-from dependency.gnss_math_tool import get_round
-from dependency.gnss_time_tool import epoch2gpst
-from dependency.gnss_pos_io import t_great_pos_data
+from PythonScripts.dependency.gnss_file_tool import isFileExist
+from PythonScripts.dependency.gnss_math_tool import get_round
+from PythonScripts.dependency.gnss_time_tool import epoch2gpst
+from PythonScripts.dependency.gnss_pos_io import t_great_pos_data
 
 
 # ==================================================================

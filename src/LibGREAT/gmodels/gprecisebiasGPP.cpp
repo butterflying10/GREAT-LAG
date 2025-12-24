@@ -164,6 +164,7 @@ namespace great
         if (gobs.is_phase())
         {
             wind = windUp(gobs.band(), gsatdata, _trs_rec_crd.crd_cvect_Eigen());
+            wind = 0.0; //仿真时不改正windup
         }
 
         // ion correction
@@ -182,7 +183,7 @@ namespace great
                ifb +
                ion +
                wind +
-               pcv;
+               pcv;  
     }
 
     bool t_gprecisebiasGPP::_prepare_obs_GPP(const t_gtime &crt_epo, t_gallnav *gallnav, t_gallobj *gallobj, t_gallpar &pars)
