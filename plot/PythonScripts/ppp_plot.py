@@ -18,8 +18,8 @@ year = 2024
 # 数据的年积日
 day = 122
 # 设置数据类型：浮点解(ppp-float)或者固定解(ppp-fixed)
-type1 = "JFNG GPS"
-type2 = "JFNG BDS"
+type1 = "JFNG BDS-AR 15"
+type2 = "JFNG BDS-AR 26"
 
 # 对应 type1 的测站数据
 fltPath1 = rf"..\data_ppp\float_2024122"
@@ -36,8 +36,8 @@ for doy in tqdm(range(day, day + 1)):
     for site in siteList:
         logging.info(f"{site}")
         for i in range(1):
-            fltFilePath1 = os.path.join(fltPath1, f"{site}-SIMU_LEO_G.flt")
-            fltFilePath2 = os.path.join(fltPath2, f"{site}-SIMU_LEO_C.flt")
+            fltFilePath1 = os.path.join(fltPath1, f"{site}-SIMU13_BDS_AR.flt")
+            fltFilePath2 = os.path.join(fltPath2, f"{site}-SIMU12_BDS_AR.flt")
             if not os.path.exists(fltFilePath2):
                 continue
             fltData2 = readGreatFltFile_v2(fltFilePath2)

@@ -102,7 +102,7 @@ def gnss_great_draw_compare_flt(site_name, type1, type2, fltData1, fltData2, crd
     # 根据时间循环
     # 绘图
     ## 文件1
-    timeIndex = getPosTimeIndex(fltData1, 30)
+    timeIndex = getPosTimeIndex(fltData1, 1)
     allNum = len(timeIndex)
     fixNum = 0
     floNum = 0
@@ -136,7 +136,7 @@ def gnss_great_draw_compare_flt(site_name, type1, type2, fltData1, fltData2, crd
             fwSumFile.write(writeLine + "\n")
 
     ## 文件2
-    timeIndex = getPosTimeIndex(fltData2, 30)
+    timeIndex = getPosTimeIndex(fltData2, 1)
     allNum = len(timeIndex)
     fixNum = 0
     floNum = 0
