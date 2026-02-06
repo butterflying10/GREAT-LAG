@@ -89,7 +89,6 @@ namespace gnut
             (string)"561",(string)"562",(string)"563",(string)"564",(string)"565",(string)"566",(string)"567",(string)"568",(string)"569",(string)"570",
             (string)"571",(string)"572",(string)"573",(string)"574",(string)"575",(string)"576",(string)"577",(string)"578",(string)"579",(string)"580",
             (string)"581",(string)"582",(string)"583",(string)"584",
-            (string)"L01",(string)"L02",(string)"L03",
         };
         return m;
     }
