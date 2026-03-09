@@ -484,6 +484,37 @@ namespace great
 					continue;
 				}
 
+
+				// ANTENNA: DELTA H/E/N   
+				auto  gobj = dynamic_cast<t_gallobj*>((*_data)[t_gdata::ID_TYPE::ALLOBJ]);
+				shared_ptr<t_grec> rec_obj = dynamic_pointer_cast<t_grec> (gobj->obj(_site));
+				t_grec::t_maphdr maphdr = rec_obj->gethdr();
+				t_rnxhdr rnxhdr = maphdr.begin()->second;
+				t_gtriple antenu = rnxhdr.antneu();
+				t_gtriple los = gmodel->_trs_sat_crd - gmodel->_trs_rec_crd;
+
+				t_gtriple ell(0.0, 0.0, 0.0);
+				double sinPhi, cosPhi, sinLam, cosLam;
+				Matrix rotmatrix(3, 3);
+
+				xyz2ell(gmodel->_trs_rec_crd, ell, false);
+
+				sinPhi = sin(ell[0]);
+				cosPhi = cos(ell[0]);
+				sinLam = sin(ell[1]);
+				cosLam = cos(ell[1]);
+				rotmatrix << -sinPhi * cosLam << -sinLam << +cosPhi * cosLam
+					<< -sinPhi * sinLam << +cosLam << +cosPhi * sinLam
+					<< +cosPhi << 0.0 << +sinPhi;
+
+				t_gtriple dx(rotmatrix* (antenu.crd_cvect()));
+
+				ColumnVector e = los.unitary();
+
+				double corr = DotProduct(dx.crd_cvect(), e);
+
+				omc = omc + corr;
+
 				// simulate ion correct
 				double gamma = SQR(obsdata.wavelength(this_obs.band())) / SQR(CLIGHT / obsdata.frequency(_band_index[gsys][FREQ_1]));
 				double ion = gamma * ion_L1;

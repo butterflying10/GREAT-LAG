@@ -29,7 +29,7 @@
 
 #include "gall/galltrp.h"
 #include "gdata/gion.h"
-
+#include <random>
 namespace great
 {
     /** @brief class for precise bias    */
@@ -289,6 +289,14 @@ namespace great
         map<string, double> _rec_clk;                  ///< rec clk
         bool _isCalSatPCO = true;                      ///< is Cal Sat PCO
         tuple<string, string, t_gtime> _rec_sat_before;///< rec sat before
+
+        std::default_random_engine      _engine;	///< random engine
+
+        double _leo_isb_bias0 = 0.0;      // constant bias (m)
+        double _leo_isb_rw = 0.0;      // random walk state (m)
+        bool   _leo_isb_init = false;
+        t_gtime _leo_isb_last;
+
     };
 }
 

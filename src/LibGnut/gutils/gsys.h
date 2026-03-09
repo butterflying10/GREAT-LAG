@@ -88,8 +88,8 @@ namespace gnut
 //#define  X02_MLT          117.5 //LYZ CHANGE
 //#define  X01_MLT          148.8 //LYZ CHANGE
 
-#define L02_MLT 120.0 //LYZ CHANGE120.0 117.5
-#define L01_MLT 154.0 //LYZ CHANGE154.0 148.8
+#define L02_MLT 120.0 // 124.0 //  //LYZ CHANGE120.0 117.5
+#define L01_MLT 154.0 //152.6 //  //LYZ CHANGE154.0 148.8
 #define L05_MLT 115.0
 ///< GNSS derived frequencies [Hz]
 #define G01_F G01_MLT *GPS_FRQ                    ///<  L1    - GPS NAVSTAR

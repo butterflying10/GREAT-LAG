@@ -164,7 +164,7 @@ namespace great
         if (gobs.is_phase())
         {
             wind = windUp(gobs.band(), gsatdata, _trs_rec_crd.crd_cvect_Eigen());
-            //wind = 0.0; //仿真时不改正windup
+            wind = 0.0; //仿真时不改正windup
         }
 
         // ion correction

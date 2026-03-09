@@ -331,6 +331,23 @@ namespace great
             {
                 isb_offset = param[i].value();
             }
+            t_gtime t = satdata.epoch();
+            //// 仿真LEO_ISB  常数偏差  1m 标准差  
+            //if (!_leo_isb_init)
+            //{
+            //    _leo_isb_bias0 = std::normal_distribution<double>(0.0, 1)(_engine);
+            //    _leo_isb_rw = 0.0;
+            //    _leo_isb_last = t;
+            //    _leo_isb_init = true;
+            //}
+            //else
+            //{
+            //    _leo_isb_rw += std::normal_distribution<double>(0.0, 0.002)(_engine);
+            //}
+
+            //isb_offset +=( _leo_isb_bias0 + _leo_isb_rw);
+            //isb_offset += (_leo_isb_bias0);
+
             break;
         }
         default:
@@ -688,6 +705,7 @@ namespace great
             if (rec_pcv->pcoR_raw(satdata, pco, band) > 0)
             {
                 Matrix _rot_matrix = _RotMatrix_Ant(satdata, _crt_rec_epo, crt_sat_epo, rec_obj, false);
+                
                 t_gtriple dx(_rot_matrix * (pco.crd_cvect()));
                 rec_pcv->pco_proj(pco_R, satdata, trs_rec_crd, dx);
             }

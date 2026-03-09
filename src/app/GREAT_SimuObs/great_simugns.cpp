@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 	auto log_pattern = dynamic_cast<t_gsetout*>(&gset)->log_pattern();
 	spdlog::set_level(log_level);
 	spdlog::set_pattern(log_pattern);
-	spdlog::flush_on(spdlog::level::err);// change err to info
+	spdlog::flush_on(spdlog::level::debug);// change err to info
 	t_grtlog great_log = t_grtlog(log_type, log_level, log_name);
 	auto my_logger = great_log.spdlog();
 
