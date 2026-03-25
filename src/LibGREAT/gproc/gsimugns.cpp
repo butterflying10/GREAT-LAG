@@ -105,6 +105,18 @@ namespace great
 		_gall_nav = dynamic_cast<t_gallnav*>((*data)[t_gdata::GRP_EPHEM]);
 		_gallobj = dynamic_cast<t_gallobj*>((*data)[t_gdata::ALLOBJ]);
 		_gupd = dynamic_cast<t_gupd*>((*data)[t_gdata::UPD]);
+
+		_hw_ref_epoch = dynamic_cast<t_gsetgen*>(_set)->beg();
+
+		for (auto sat : _sats)
+		{
+			if (_sat_hw_map.find(sat) == _sat_hw_map.end())
+			{
+				hw_delay_record onehw;
+				_sat_hw_map[sat] = onehw;
+			}
+		}
+
 	}
 
 	t_gsimugns::~t_gsimugns()
@@ -153,7 +165,7 @@ namespace great
 		{
 
 			/* display progress */
-			if (epoch.sow() % 7200 == 0) cerr << "[great_simuobs] " << _site << " " << epoch.str_ymdhms() << "finish " << std::endl;
+			if (epoch.sow() % 600 == 0) cerr << "[great_simuobs] " << _site << " " << epoch.str_ymdhms() << "finish " << std::endl;
 			if (fabs(epoch.dsec() - 1.0) < 1e-6) { epoch.reset_dsec(); epoch.add_secs(1); }
 
 			//set simu params value
@@ -177,7 +189,7 @@ namespace great
 				case par_type::CLK:
 					if (_crd_est != CONSTRPAR::KIN) 
 					{ 
-						if (_clk)params[i].value(interp(epoch, parinfo[parType], 30));
+						if (_clk)params[i].value(interp(epoch, parinfo[parType], _intv));
 						else params[i].value(std::normal_distribution<double>(0.0, sigCLK)(_engine));
 						break; 
 					}
@@ -325,7 +337,7 @@ namespace great
 					}
 					continue;
 				}
-				for (t_gtime it_time = beg_time; it_time <= end_time; it_time = it_time + 30)
+				for (t_gtime it_time = beg_time; it_time <= end_time; it_time = it_time + _intv) // change 30 to 1 
 				{
 					double clk, var, dclk;
 					bool chk_mask;
@@ -696,9 +708,15 @@ namespace great
 			<< setw(15) << "noise_P1[m]"
 			<< setw(15) << "noise_P2[m]"
 			<< setw(15) << "noise_P3[m]"
+			<< setw(15) << "hw_P1[m]"
+			<< setw(15) << "hw_P2[m]"
+			<< setw(15) << "hw_P3[m]"
 			<< setw(15) << "noise_L1[m]"
 			<< setw(15) << "noise_L2[m]"
 			<< setw(15) << "noise_L3[m]"
+			<< setw(15) << "hw_L1[m]"
+			<< setw(15) << "hw_L2[m]"
+			<< setw(15) << "hw_L3[m]"
 			<< endl;
 
 		map<t_gtime, map<string, double>>::iterator itpar;
@@ -728,6 +746,9 @@ namespace great
 				<< setw(15) << (itpar->second.find("noise_P1") != itpar->second.end() ? itpar->second["noise_P1"] : 0.0)
 				<< setw(15) << (itpar->second.find("noise_P2") != itpar->second.end() ? itpar->second["noise_P2"] : 0.0)
 				<< setw(15) << (itpar->second.find("noise_P3") != itpar->second.end() ? itpar->second["noise_P3"] : 0.0)
+				<< setw(15) << (itpar->second.find("hw_P1") != itpar->second.end() ? itpar->second["hw_P1"] : 0.0)
+				<< setw(15) << (itpar->second.find("hw_P2") != itpar->second.end() ? itpar->second["hw_P2"] : 0.0)
+				<< setw(15) << (itpar->second.find("hw_P3") != itpar->second.end() ? itpar->second["hw_P3"] : 0.0)
 				<< setw(15) << (itpar->second.find("noise_L1") != itpar->second.end() ? itpar->second["noise_L1"] : 0.0)
 				<< setw(15) << (itpar->second.find("noise_L2") != itpar->second.end() ? itpar->second["noise_L2"] : 0.0)
 				<< setw(15) << (itpar->second.find("noise_L3") != itpar->second.end() ? itpar->second["noise_L3"] : 0.0) << endl;
@@ -802,6 +823,47 @@ namespace great
 		upd2 = upd2 * satdata.wavelength(_band_index[sys][FREQ_2]);
 		return true;
 	}
+	double t_gsimugns::_sec_from_ref(const t_gtime& epoch) const
+	{
+		t_gtime ref = _hw_ref_epoch;
+		double dt_day = double(epoch.mjd() - ref.mjd()) * 86400.0;
+		double dt_sod = double(epoch.sod() - ref.sod());
+		double dt_dsec = epoch.dsec() - ref.dsec();
+		return dt_day + dt_sod + dt_dsec;
+	}
+
+	double t_gsimugns::_simu_code_hw_delay(const t_gtime& epoch, const string& sat)
+	{
+		if (!_code_hw_delay) return 0.0;
+		//if (!obs.is_code()) return 0.0;
+
+		if (_sat_hw_map.find(sat) == _sat_hw_map.end())
+		{
+			hw_delay_record onehw;
+			_sat_hw_map[sat] = onehw;
+		}
+
+		auto& hw = _sat_hw_map[sat];
+
+		if (!hw.inited)
+		{
+			hw.rand_scale = std::normal_distribution<double>(1.0, 1.0)(_engine);
+			hw.phi = std::uniform_real_distribution<double>(0.0, G_PI / 10.0)(_engine);
+			hw.inited = true;
+		}
+
+		double tsec = _sec_from_ref(epoch);
+		double T = (_hw_period_sec > 0.0) ? _hw_period_sec : 6000.0;
+
+		// delta_hw(t) = R * Cx + Py(t),  Py(t) = y * sin(2*pi*t/T + phi)
+		double delta_ns = hw.rand_scale * _hw_const_ns
+			+ _hw_period_ns * sin(2.0 * G_PI * tsec / T + hw.phi);
+		//double delta_ns = _hw_const_ns;
+		// ns -> m
+		return delta_ns * 1e-9 * CLIGHT;
+	}
+
+
 }
 
 

@@ -60,6 +60,22 @@ namespace great
 		int value_L3;
 	};
 
+	class hw_delay_record
+	{
+	public:
+		hw_delay_record()
+		{
+			inited = false;
+			rand_scale = 0.0;
+			phi = 0.0;
+		}
+
+		~hw_delay_record() {}
+
+		bool inited;        ///< whether initialized for this satellite
+		double rand_scale;  ///< R ~ N(0,1), fixed for each satellite
+		double phi;         ///< initial phase for periodic component
+	};
 	/**
 	*@brief	   Class for simulating GNSS observations
 	*/
@@ -128,6 +144,16 @@ namespace great
 
 		set<string> triple_rm_sat{ "G02", "G05", "G07" , "G12" , "G13" , "G15" , "G16" , "G17" , "G19" , "G20" , "G21" , "G22" , "G28", "G29" , "G31" };
 
+
+		// code hardware delay simulation
+		bool _code_hw_delay = true;       ///< enable pseudorange hardware delay simulation
+		bool _phase_hw_delay = true;
+		double _hw_const_ns = 40;       ///< constant component amplitude in ns
+		double _hw_period_ns = 0.0;       ///< periodic component amplitude in ns
+		double _hw_period_sec = 6000.0;   ///< period in seconds, typical LEO value ~100 min
+		t_gtime _hw_ref_epoch;            ///< reference epoch for continuous periodic simulation
+
+
 	protected:
 		/**
 		* @brief Initializing some pars.
@@ -181,9 +207,27 @@ namespace great
 		*/
 		bool _get_upd_value(t_gtime epoch, double& upd1, double& upd2, t_gsatdata satdata);
 
+		/**
+		* @brief get seconds from hardware delay reference epoch.
+		* @param[in] epoch            current epoch
+		*/
+		double _sec_from_ref(const t_gtime& epoch) const;
+
+		/**
+		* @brief simulate pseudorange hardware delay in meters.
+		* @param[in] epoch            current epoch
+		* @param[in] sat              satellite id
+		* @param[in] obs              observation type
+		*/
+		double _simu_code_hw_delay(const t_gtime& epoch, const string& sat);
+
+
 
 		std::default_random_engine      _engine;	///< random engine
 		map<string, amb_value_record> _sat_amb_map;	///< map for all sat integer amb record
+
+		map<string, hw_delay_record> _sat_hw_map;   ///< per-satellite code hardware delay states
+
 	};
 }
 #endif

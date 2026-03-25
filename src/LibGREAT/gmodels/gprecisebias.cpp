@@ -332,21 +332,6 @@ namespace great
                 isb_offset = param[i].value();
             }
             t_gtime t = satdata.epoch();
-            //// 仿真LEO_ISB  常数偏差  1m 标准差  
-            //if (!_leo_isb_init)
-            //{
-            //    _leo_isb_bias0 = std::normal_distribution<double>(0.0, 1)(_engine);
-            //    _leo_isb_rw = 0.0;
-            //    _leo_isb_last = t;
-            //    _leo_isb_init = true;
-            //}
-            //else
-            //{
-            //    _leo_isb_rw += std::normal_distribution<double>(0.0, 0.002)(_engine);
-            //}
-
-            //isb_offset +=( _leo_isb_bias0 + _leo_isb_rw);
-            //isb_offset += (_leo_isb_bias0);
 
             break;
         }
